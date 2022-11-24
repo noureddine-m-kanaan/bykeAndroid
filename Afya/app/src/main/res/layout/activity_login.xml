@@ -18,9 +18,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="28dp"
-        android:autofillHints="@string/prompt_email"
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
+        android:autofillHints="@string/prompt_username"
+        android:hint="@string/prompt_username"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
         android:selectAllOnFocus="true"
         app:layout_constraintBottom_toTopOf="@+id/password"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,6 +37,7 @@
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         android:selectAllOnFocus="true"
         app:layout_constraintBottom_toTopOf="@+id/login"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,28 +70,6 @@
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
-
-    <TextView
-        android:id="@+id/login_tv_AppName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/app_name"
-        android:textColor="#5C862B"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_logo" />
 
     <TextView
         android:id="@+id/login_tv_OU"
@@ -125,7 +105,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="273dp"
+        android:layout_width="290dp"
         android:layout_height="19dp"
         android:layout_marginBottom="28dp"
         android:background="#FFFFFF"
@@ -151,5 +131,13 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="144dp"
+        android:layout_height="123dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_afya_logo_foreground" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
