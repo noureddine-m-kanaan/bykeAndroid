@@ -1,6 +1,5 @@
 package com.example.afya.ui.login
 
-import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,17 +12,20 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.example.afya.MapsActivity
 import com.example.afya.databinding.ActivityLoginBinding
 
 import com.example.afya.R
+import com.example.afya.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var button: Button;
+    private lateinit var button: Button
+    private lateinit var tvRegisterLink: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,25 +33,24 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val username = binding.username
-        val password = binding.password
-        val login = binding.login
+        val username = binding.loginUsername
+        val password = binding.loginPassword
+        val login = binding.loginButton
         val loading = binding.loading
 
-        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())
-            .get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProvider(this, LoginViewModelFactory())[(LoginViewModel::class.java)]
 
         loginViewModel.loginFormState.observe(this@LoginActivity, Observer {
             val loginState = it ?: return@Observer
 
             // disable login button unless both username / password is valid
-            login.isEnabled = loginState.isDataValid
+            login?.isEnabled = loginState.isDataValid
 
             if (loginState.usernameError != null) {
-                username.error = getString(loginState.usernameError)
+                username?.error = getString(loginState.usernameError)
             }
             if (loginState.passwordError != null) {
-                password.error = getString(loginState.passwordError)
+                password?.error = getString(loginState.passwordError)
             }
         })
 
@@ -63,23 +64,23 @@ class LoginActivity : AppCompatActivity() {
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
             }
-            setResult(Activity.RESULT_OK)
+            setResult(RESULT_OK)
 
             //Complete and destroy login activity once successful
             finish()
         })
 
-        username.afterTextChanged {
+        username?.afterTextChanged {
             loginViewModel.loginDataChanged(
                 username.text.toString(),
-                password.text.toString()
+                password?.text.toString()
             )
         }
 
-        password.apply {
+        password?.apply {
             afterTextChanged {
                 loginViewModel.loginDataChanged(
-                    username.text.toString(),
+                    username?.text.toString(),
                     password.text.toString()
                 )
             }
@@ -88,50 +89,33 @@ class LoginActivity : AppCompatActivity() {
                 when (actionId) {
                     EditorInfo.IME_ACTION_DONE ->
                         loginViewModel.login(
-                            username.text.toString(),
+                            username?.text.toString(),
                             password.text.toString()
                         )
                 }
                 false
             }
 
-            login.setOnClickListener {
+            login?.setOnClickListener {
                 loading.visibility = View.VISIBLE
-                loginViewModel.login(username.text.toString(), password.text.toString())
+                loginViewModel.login(username?.text.toString(), password.text.toString())
             }
         }
 
         button = findViewById(R.id.buttonMap)
-        /*button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openMapActivity()
-            }
-        })*/
-
-        /*button.setOnClickListener(View.OnClickListener() {
-            //@Override
-            fun onClick(v:View) {
-                openMapActivity()
-            }
-        })*/
-
         button.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)
             //start your next activity
             startActivity(intent)
         }
+
+        // tvRegisterLink = findViewById(R.id.register_tv_loginLink)
+        tvRegisterLink = findViewById(R.id.login_tv_registerLink)
+        tvRegisterLink.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
     }
-
-    /*public void openMapActivity() {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent)
-    }*/
-
-    /*public fun openMapActivity() {
-        val intent = Intent(this, MapsActivity.class)
-        startActivity(intent)
-    }*/
 
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)

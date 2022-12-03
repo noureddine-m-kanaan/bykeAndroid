@@ -4,7 +4,9 @@
     <string name="prompt_username">"Nom d'utilisateur"</string>
     <string name="prompt_email">"Email"</string>
     <string name="prompt_password">Mot de passe</string>
+    <string name="prompt_confirm_password">Confirmer mot de passe</string>
     <string name="action_sign_in">Se connecter</string>
+    <string name="action_register_in">"S'inscrire"</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
@@ -12,5 +14,12 @@
     <string name="login_failed">"Login failed"</string>
     <string name="register_text">"Vous n'avez pas de compte ?"</string>
     <string name="register_link">Inscrivez-vous</string>
+    <string name="login_text">Vous avez déjà un compte ?</string>
+    <string name="login_link">Connectez-vous</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="login_title">Connexion</string>
+    <string name="register_title">Inscription</string>
+    <string name="or">OU</string>
+    <string name="logo_content_description">Afya</string>
+    <string name="show_map">Afficher la carte</string>
 </resources>
