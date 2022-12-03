@@ -1,6 +1,7 @@
 package com.example.afya.ui.login
 
 import android.app.Activity
+import android.content.Intent
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -10,8 +11,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.afya.MapsActivity
 import com.example.afya.databinding.ActivityLoginBinding
 
 import com.example.afya.R
@@ -20,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var button: Button;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +100,38 @@ class LoginActivity : AppCompatActivity() {
                 loginViewModel.login(username.text.toString(), password.text.toString())
             }
         }
+
+        button = findViewById(R.id.buttonMap)
+        /*button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMapActivity()
+            }
+        })*/
+
+        /*button.setOnClickListener(View.OnClickListener() {
+            //@Override
+            fun onClick(v:View) {
+                openMapActivity()
+            }
+        })*/
+
+        button.setOnClickListener {
+            val intent = Intent(this, MapsActivity::class.java)
+            //start your next activity
+            startActivity(intent)
+        }
     }
+
+    /*public void openMapActivity() {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent)
+    }*/
+
+    /*public fun openMapActivity() {
+        val intent = Intent(this, MapsActivity.class)
+        startActivity(intent)
+    }*/
 
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome)
