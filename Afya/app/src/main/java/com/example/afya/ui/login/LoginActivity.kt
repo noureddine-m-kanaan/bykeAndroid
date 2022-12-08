@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.afya.MapsActivity
 import com.example.afya.databinding.ActivityLoginBinding
 
@@ -28,7 +29,10 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var tvRegisterLink: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+       // val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+       // splashScreen.setKeepOnScreenCondition {  }
+
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -129,7 +133,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
-        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+        // Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 }
 
