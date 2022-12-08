@@ -1,10 +1,10 @@
-package com.example.afya
+package com.example.afya.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.example.afya.ui.login.LoginActivity
+import com.example.afya.R
 
 class SplashScreenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,9 +17,6 @@ class SplashScreenActivity : AppCompatActivity() {
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
-
-
-
     }
 
 }

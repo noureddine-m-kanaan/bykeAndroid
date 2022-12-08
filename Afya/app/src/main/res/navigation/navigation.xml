@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/itemExerciceFragment">
+    <fragment
+        android:id="@+id/itemExerciceFragment"
+        android:name="com.example.afya.view.ItemTripFragment"
+        android:label="fragment_item_exercice_list"
+        tools:layout="@layout/fragment_item_exercice_list" >
+        <action
+            android:id="@+id/action_itemExerciceFragment_to_exerciceDetailsFragment6"
+            app:destination="@id/exerciceDetailsFragment6" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciceDetailsFragment6"
+        android:name="com.example.afya.view.TripDetailsFragment"
+        android:label="fragment_exercice_details"
+        tools:layout="@layout/fragment_exercice_details" />
+</navigation>

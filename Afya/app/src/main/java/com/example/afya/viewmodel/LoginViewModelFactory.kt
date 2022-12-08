@@ -1,4 +1,4 @@
-package com.example.afya.ui.login
+package com.example.afya.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

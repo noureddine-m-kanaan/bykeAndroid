@@ -1,10 +1,10 @@
-package com.example.afya
+package com.example.afya.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
-import com.example.afya.ui.login.LoginActivity
+import com.example.afya.R
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var tvLoginLink: TextView

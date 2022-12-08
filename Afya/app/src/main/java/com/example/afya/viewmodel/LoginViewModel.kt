@@ -1,4 +1,4 @@
-package com.example.afya.ui.login
+package com.example.afya.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +8,9 @@ import com.example.afya.data.LoginRepository
 import com.example.afya.data.Result
 
 import com.example.afya.R
+import com.example.afya.ui.login.LoggedInUserView
+import com.example.afya.ui.login.LoginFormState
+import com.example.afya.ui.login.LoginResult
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 

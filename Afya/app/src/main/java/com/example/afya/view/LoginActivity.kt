@@ -1,11 +1,7 @@
-package com.example.afya.ui.login
+package com.example.afya.view
 
 import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -13,13 +9,16 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.afya.MapsActivity
-import com.example.afya.databinding.ActivityLoginBinding
-
 import com.example.afya.R
-import com.example.afya.RegisterActivity
+import com.example.afya.databinding.ActivityLoginBinding
+import com.example.afya.ui.login.LoggedInUserView
+import com.example.afya.viewmodel.LoginViewModel
+import com.example.afya.viewmodel.LoginViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
 
@@ -125,11 +124,9 @@ class LoginActivity : AppCompatActivity() {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         // TODO : initiate successful logged in experience
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+        val intent = Intent(baseContext, MainActivity::class.java)
+        intent.putExtra("DISPLAY_NAME", displayName)
+        startActivity(intent)
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {
