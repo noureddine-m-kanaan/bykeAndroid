@@ -8,9 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.afya.R
 import com.example.afya.adapter.MyItemRecyclerViewAdapter
+import com.example.afya.databinding.FragmentItemExerciceBinding
 import com.example.afya.view.placeholder.PlaceholderContent
 
 /**
@@ -19,10 +22,10 @@ import com.example.afya.view.placeholder.PlaceholderContent
 class ItemTripFragment : Fragment() {
 
     private var columnCount = 1
+    private lateinit var binding: FragmentItemExerciceBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
@@ -33,7 +36,10 @@ class ItemTripFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_item_exercice_list, container, false)
-
+        binding = FragmentItemExerciceBinding.inflate(inflater, container, false)
+        binding.buttonDetails.setOnClickListener {
+            validate()
+        }
         // Set the adapter
         if (view is RecyclerView) {
             with(view) {
@@ -47,14 +53,11 @@ class ItemTripFragment : Fragment() {
         return view
     }
 
-//    override fun onClick(view: View) {
-//        val navHostFragment =
-//            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-//        val navController = navHostFragment.navController
-//        val action = SpecifyAmountFragmentDirections
-//                .actionSpecifyAmountFragmentToConfirmationFragment()
-//        view.findNavController().navigate(action)
-//    }
+    private fun validate() {
+       this.findNavController().navigate(
+           ItemTripFragmentDirections.actionItemExerciceFragmentToExerciceDetailsFragment6()
+       )
+    }
 
 
     companion object {
