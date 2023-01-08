@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/itemExerciceFragment">
+    app:startDestination="@id/tripsFragment">
     <fragment
-        android:id="@+id/itemExerciceFragment"
-        android:name="com.example.afya.view.ItemTripFragment"
-        android:label="fragment_item_exercice_list"
-        tools:layout="@layout/fragment_item_exercice_list" >
+        android:id="@+id/tripsFragment"
+        android:name="com.example.afya.view.TripsFragment"
+        android:label="fragment_trips"
+        tools:layout="@layout/fragment_trips">
         <action
-            android:id="@+id/action_itemExerciceFragment_to_exerciceDetailsFragment6"
+            android:id="@+id/action_tripsFragment_to_exerciceDetailsFragment6"
             app:destination="@id/exerciceDetailsFragment6" />
     </fragment>
+
     <fragment
         android:id="@+id/exerciceDetailsFragment6"
         android:name="com.example.afya.view.TripDetailsFragment"

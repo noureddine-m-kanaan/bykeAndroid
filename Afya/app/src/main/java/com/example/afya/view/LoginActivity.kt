@@ -28,11 +28,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var tvRegisterLink: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-       // val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-       // splashScreen.setKeepOnScreenCondition {  }
-
-
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -63,14 +59,11 @@ class LoginActivity : AppCompatActivity() {
             loading.visibility = View.GONE
             if (loginResult.error != null) {
                 showLoginFailed(loginResult.error)
+                finish()
             }
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
             }
-            setResult(RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            finish()
         })
 
         username?.afterTextChanged {
@@ -105,16 +98,13 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        button = findViewById(R.id.buttonMap)
-        button.setOnClickListener {
+        binding.buttonMap?.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)
             //start your next activity
             startActivity(intent)
         }
 
-        // tvRegisterLink = findViewById(R.id.register_tv_loginLink)
-        tvRegisterLink = findViewById(R.id.login_tv_registerLink)
-        tvRegisterLink.setOnClickListener {
+        binding.loginTvRegisterLink?.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
@@ -124,9 +114,10 @@ class LoginActivity : AppCompatActivity() {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         // TODO : initiate successful logged in experience
-        val intent = Intent(baseContext, MainActivity::class.java)
+        val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("DISPLAY_NAME", displayName)
         startActivity(intent)
+        finish()
     }
 
     private fun showLoginFailed(@StringRes errorString: Int) {

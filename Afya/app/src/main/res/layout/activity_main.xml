@@ -36,14 +36,14 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.example.afya.view.ItemTripFragment"
-        android:layout_width="417dp"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout="@layout/fragment_item_exercice_list"
+        tools:layout="@layout/fragment_trips"
         app:navGraph="@navigation/navigation"
         app:defaultNavHost="true"/>
 
