@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -59,7 +60,6 @@ class LoginActivity : AppCompatActivity() {
             loading.visibility = View.GONE
             if (loginResult.error != null) {
                 showLoginFailed(loginResult.error)
-                finish()
             }
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
@@ -120,8 +120,8 @@ class LoginActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        // Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    private fun showLoginFailed(errorString: String) {
+        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 }
 
