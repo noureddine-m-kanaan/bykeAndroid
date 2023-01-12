@@ -10,7 +10,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -100,7 +99,6 @@ class LoginActivity : AppCompatActivity() {
 
         binding.buttonMap?.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)
-            //start your next activity
             startActivity(intent)
         }
 

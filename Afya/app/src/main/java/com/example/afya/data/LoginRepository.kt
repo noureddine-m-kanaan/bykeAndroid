@@ -35,6 +35,6 @@ class LoginRepository(val dataSource: LoginDataSource) {
     }
 
     private fun setLoggedInUser(loggedInUser: LoggedInUser) {
-        this.user = LoggedInUser(loggedInUser.nomUtil, loggedInUser.token)
+        this.user = LoggedInUser(loggedInUser.numUtil, loggedInUser.nomUtil, loggedInUser.token)
     }
 }
