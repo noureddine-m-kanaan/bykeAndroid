@@ -56,7 +56,6 @@ class RegisterActivity : AppCompatActivity() {
         })
 
         username.afterTextChanged {
-            println("yo")
             registerViewModel.registerDataChanged(
                 username.text.toString(),
                 password.text.toString(),

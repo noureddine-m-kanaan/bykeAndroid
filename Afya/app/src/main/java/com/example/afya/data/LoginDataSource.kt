@@ -22,7 +22,6 @@ class LoginDataSource {
             .build()
             .create(API::class.java)
             .login(User(username, password))
-        println(resp)
         return if(resp.isSuccessful){
             Result.Success(resp.body()!!)
         }else{

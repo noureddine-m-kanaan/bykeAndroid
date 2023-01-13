@@ -27,7 +27,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
         viewModelScope.launch(Dispatchers.IO) {
             val result = loginRepository.login(username, password)
             if (result is Result.Success) {
-                _loginResult.postValue(LoginResult(success = LoggedInUserView(displayName = result.data.nomUtil)))
+                _loginResult.postValue(LoginResult(success = LoggedInUserView(displayName = result.data.nomUtil, numUtil = result.data.numUtil, token = result.data.token)))
             } else {
                 _loginResult.postValue(LoginResult(error = result.toString().substringAfter("IOException:").dropLast(1))
                 )

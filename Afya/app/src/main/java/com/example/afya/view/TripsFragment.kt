@@ -1,75 +1,79 @@
 package com.example.afya.view
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.afya.R
 import com.example.afya.adapter.TripsAdapter
-import com.example.afya.databinding.FragmentTripsBinding
-import com.example.afya.view.placeholder.PlaceholderContent
+import com.example.afya.api.API
+import com.example.afya.data.model.Trip
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /**
  * A fragment representing a list of Items.
  */
 class TripsFragment : Fragment() {
-
-    private var columnCount = 1
-    private lateinit var binding: FragmentTripsBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
+    lateinit var adapter: TripsAdapter
+    lateinit var recyclerView: RecyclerView
+    var trips: MutableList<Trip> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding =  FragmentTripsBinding.inflate(inflater, container, false)
+    ): View? {
+        val activity: MainActivity = activity as MainActivity
+        val extras = activity.getExtra()
+        val id = extras?.getInt("USER_ID")
+        val token = extras?.getString("TOKEN")
 
-        // Set the adapter
-        val adapter = TripsAdapter {
-            //Go to the detail fragment with the id of the item
-            validate()
-        }
+        val view = inflater.inflate(R.layout.fragment_trips, container, false)
+        recyclerView = view.findViewById(R.id.rv_trips)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = TripsAdapter(trips)
+        recyclerView.adapter = adapter
 
-        with(binding.list) {
-            layoutManager = when {
-                columnCount <= 1 -> LinearLayoutManager(context)
-                else -> GridLayoutManager(context, columnCount)
+        val req = Retrofit.Builder()
+            .baseUrl("http://192.168.60.26:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(API::class.java)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            try{
+                val response = req.getTrips(token!!, id!!)
+                response.body()!!.forEach{
+                    it.formatDate()
+                }
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        trips.clear()
+                        trips.addAll(response.body()!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }catch(e: Exception) {
+                    Log.e(TAG, "Failed to fetch trips", e)
             }
-            this.adapter = adapter
         }
-        adapter.submitList(PlaceholderContent.ITEMS)
 
-        return binding.root
+        return view
     }
 
     private fun validate() {
         this.findNavController().navigate(
             TripsFragmentDirections.actionTripsFragmentToExerciceDetailsFragment6()
         )
-    }
-
-
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            TripsFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
     }
 }

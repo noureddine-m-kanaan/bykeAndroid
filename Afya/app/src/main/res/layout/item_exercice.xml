@@ -8,10 +8,9 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/content"
+        android:id="@+id/tv_dateTrip"
         android:layout_width="0dp"
         android:layout_height="34dp"
-        android:text="16/03/2023"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintEnd_toStartOf="@id/buttonDetails"
         app:layout_constraintStart_toStartOf="parent"

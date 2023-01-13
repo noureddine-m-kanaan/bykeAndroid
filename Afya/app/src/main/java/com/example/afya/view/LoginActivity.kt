@@ -109,11 +109,10 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateUiWithUser(model: LoggedInUserView) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.displayName
-        // TODO : initiate successful logged in experience
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("DISPLAY_NAME", displayName)
+        intent.putExtra("DISPLAY_NAME", model.displayName)
+        intent.putExtra("USER_ID", model.numUtil)
+        intent.putExtra("TOKEN", "Bearer " + model.token)
         startActivity(intent)
         finish()
     }
