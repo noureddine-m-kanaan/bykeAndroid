@@ -1,14 +1,18 @@
 package com.example.afya.bluetooth
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Service
 import android.bluetooth.BluetoothDevice
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.aflak.bluetooth.Bluetooth
-import me.aflak.bluetooth.interfaces.BluetoothCallback
 import me.aflak.bluetooth.interfaces.DeviceCallback
 import kotlin.concurrent.thread
 
@@ -29,26 +33,41 @@ class BluetoothService : Service() {
         private val _connected : MutableLiveData<Boolean> = MutableLiveData()
     }
 
+    @SuppressLint("MissingPermission")
+
     override fun onCreate() {
         super.onCreate()
+        Log.i("BluetoothService", "BluetoothService")
+
+
+
         thread (true){
             bluetooth.onStart()
-            Log.v("BluetoothService", "onStart")
-            bluetooth.connectToName("ESP32")
-            Log.v("BluetoothService", "connectToName")
+            Log.i("BluetoothService", "onStart")
+            bluetooth.connectToName("ESP32test")
+            Log.i("BluetoothService", "connectToName")
             bluetooth.setDeviceCallback(this.deviceCallback)
-            Log.v("BluetoothService", "setDeviceCallback")
+            Log.i("BluetoothService", "setDeviceCallback")
         }
 
     }
 
+    @SuppressLint("MissingPermission")
     private val deviceCallback: DeviceCallback = object : DeviceCallback {
         override fun onDeviceConnected(device: BluetoothDevice?) {
-            System.out.println("Connected to device"+device.toString())
+            if (device != null) {
+                System.out.println("Connected to device"+device.name)
+                // TODO : Récupére l'adresse mac de l'esp32
+                _connected.postValue(true)
+            }
         }
 
         override fun onDeviceDisconnected(device: BluetoothDevice?, message: String?) {
-            System.out.println("Disconnected from device"+device.toString())
+            if (device != null) {
+                System.out.println("Disconnected from device"+device.name)
+                _connected.postValue(false)
+
+            }
         }
 
         override fun onMessage(message: ByteArray?) {
@@ -60,7 +79,9 @@ class BluetoothService : Service() {
         }
 
         override fun onConnectError(device: BluetoothDevice?, message: String?) {
-            System.out.println("Problem with connecting to device : "+device.toString())
+            if (device != null) {
+                System.out.println("Problem with connecting to device : "+device.name)
+            }
             System.out.println("Error message : "+message)
         }
     }

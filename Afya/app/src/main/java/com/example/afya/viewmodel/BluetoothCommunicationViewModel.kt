@@ -58,7 +58,6 @@ class BluetoothCommunicationViewModel : ViewModel() {
         receive()
     }
 
-
     fun receive() {
         _dateTrip.postValue(Calendar.getInstance().time)
         var cpt = 0
@@ -66,25 +65,25 @@ class BluetoothCommunicationViewModel : ViewModel() {
         BluetoothService.msg.observeForever {
             msg->
             //Toast.makeText(this., msg, Toast.LENGTH_SHORT).show()
-            Log.v("msg :", msg)
-           /* try {
-                if(cpt < numSteps)
-                {
-                    val step = Klaxon().parse<Step>(msg)
-                    _steps.add(step!!)
-                    if(_steps.size >= 2)
-                        _distance.postValue(_distance.value!! + distance(_steps[_steps.size-1],_steps[_steps.size-2]))
-                    cpt++
-                } else {
-                    saveTrip()
-                }
-            }catch (e: Exception){
-                try {
-                    val numSteps = Integer.parseInt(msg)
-                }catch (exc:java.lang.Exception) {
-                    val _startTime = Time.valueOf(msg)
-                }
-            }*/
+            Log.i("msg :", msg)
+//            try {
+//                if(cpt < numSteps)
+//                {
+//                    val step = Klaxon().parse<Step>(msg)
+//                    _steps.add(step!!)
+//                    if(_steps.size >= 2)
+//                        _distance.postValue(_distance.value!! + distance(_steps[_steps.size-1],_steps[_steps.size-2]))
+//                    cpt++
+//                } else {
+//                    saveTrip()
+//                }
+//            }catch (e: Exception){
+//                try {
+//                    val numSteps = Integer.parseInt(msg)
+//                }catch (exc:java.lang.Exception) {
+//                    val _startTime = Time.valueOf(msg)
+//                }
+//            }
 
         }
 
