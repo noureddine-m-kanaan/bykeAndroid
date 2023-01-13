@@ -6,34 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
-        android:text="Start session"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="264dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="161dp"
-        android:layout_marginTop="38dp"
-        android:layout_marginEnd="192dp"
-        android:layout_marginBottom="159dp"
-        android:text="Bienvenue"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.427"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.703" />
-
     <fragment
         android:id="@+id/fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -42,21 +14,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:layout="@layout/fragment_trips"
         app:navGraph="@navigation/navigation"
         app:defaultNavHost="true"/>
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="150dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="19dp"
-        android:layout_marginTop="250dp"
-        android:layout_marginBottom="17dp"
-        android:text="Mes sessions :"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/fragment"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

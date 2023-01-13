@@ -1,11 +1,9 @@
 package com.example.afya.view
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.afya.R
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

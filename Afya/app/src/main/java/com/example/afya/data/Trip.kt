@@ -4,24 +4,26 @@ import androidx.annotation.Keep
 import androidx.databinding.BaseObservable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.example.afya.data.Step
 import java.sql.Time
 import java.util.*
 
 @Keep
 @Entity(tableName = "sortie")
-class Trip(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+data class Trip(
+   // @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    val tripNum: Int?= null,
     @ColumnInfo(name = "num_util")
-    var lastname: Long? = null,
-    @ColumnInfo(name = "date_sortie")
-    var dateSortie: Date? = null,
-    @ColumnInfo(name = "heure_depart")
-    var heureDepart: Time? = null,
-    @ColumnInfo(name = "heure_arrive")
-    var heureArrive: Time? = null,
-    @ColumnInfo(name = "lieu_depart")
-    var lieuDepart: String? = null,
-    @ColumnInfo(name = "distance_parcourue")
-    var distanceParcourue: Float? = null
-) : java.io.Serializable, BaseObservable()
+    val numUtil: Int?= null,
+    @ColumnInfo(name = "date_trip")
+    val dateTrip: Date?= null,
+    @ColumnInfo(name = "start_time")
+    val startTime: Time?= null,
+    @ColumnInfo(name = "end_time")
+    val endTime: Time?= null,
+    @ColumnInfo(name = "distance")
+    val distance: Double?= null,
+    @ColumnInfo(name = "steps")
+    val steps: List<Step>
+): java.io.Serializable, BaseObservable()
+

@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_tripsFragment_to_exerciceDetailsFragment6"
             app:destination="@id/exerciceDetailsFragment6" />
+        <action
+            android:id="@+id/action_tripsFragment_to_bluetoothCommunicationFragment2"
+            app:destination="@id/bluetoothCommunicationFragment2" />
     </fragment>
 
     <fragment
@@ -19,4 +22,12 @@
         android:name="com.example.afya.view.TripDetailsFragment"
         android:label="fragment_exercice_details"
         tools:layout="@layout/fragment_exercice_details" />
+    <fragment
+        android:id="@+id/bluetoothCommunicationFragment2"
+        android:name="com.example.afya.view.BluetoothCommunicationFragment"
+        android:label="BluetoothCommunicationFragment" >
+        <action
+            android:id="@+id/action_bluetoothCommunicationFragment2_to_tripsFragment"
+            app:destination="@id/tripsFragment" />
+    </fragment>
 </navigation>

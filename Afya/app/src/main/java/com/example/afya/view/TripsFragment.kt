@@ -48,6 +48,10 @@ class TripsFragment : Fragment() {
         }
         adapter.submitList(PlaceholderContent.ITEMS)
 
+        binding.button.setOnClickListener {
+            communicateWithBlutooth()
+        }
+
         return binding.root
     }
 
@@ -57,12 +61,16 @@ class TripsFragment : Fragment() {
         )
     }
 
+    fun communicateWithBlutooth(){
+        this.findNavController().navigate(
+            TripsFragmentDirections.actionTripsFragmentToBluetoothCommunicationFragment2()
+        )
+    }
 
     companion object {
 
         // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
-
         // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
