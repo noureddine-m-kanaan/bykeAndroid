@@ -1,24 +1,35 @@
 package com.example.afya.data
 
+import com.example.afya.api.API
 import com.example.afya.data.model.LoggedInUser
+import com.example.afya.data.model.User
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
 class LoginDataSource {
-
-    fun login(username: String, password: String): Result<LoggedInUser> {
-        try {
-            // TODO: handle loggedInUser authentication
-            val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
-            return Result.Success(fakeUser)
-        } catch (e: Throwable) {
-            return Result.Error(IOException("Error logging in", e))
+    suspend fun login(username: String, password: String): Result<LoggedInUser> {
+        val resp = Retrofit.Builder()
+            .baseUrl("http://192.168.60.26:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(API::class.java)
+            .login(User(username, password))
+        println(resp)
+        return if(resp.isSuccessful){
+            Result.Success(resp.body()!!)
+        }else{
+            Result.Error(IOException("Error logging in"))
         }
     }
 
     fun logout() {
-        // TODO: revoke authentication
     }
 }

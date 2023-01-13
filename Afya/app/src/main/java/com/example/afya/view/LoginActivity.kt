@@ -1,11 +1,7 @@
-package com.example.afya.ui.login
+package com.example.afya.view
 
 import android.content.Intent
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -14,12 +10,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.afya.MapsActivity
-import com.example.afya.databinding.ActivityLoginBinding
-
 import com.example.afya.R
-import com.example.afya.RegisterActivity
+import com.example.afya.databinding.ActivityLoginBinding
+import com.example.afya.ui.login.LoggedInUserView
+import com.example.afya.viewmodel.LoginViewModel
+import com.example.afya.viewmodel.LoginViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
 
@@ -29,11 +28,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var tvRegisterLink: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-       // val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
-       // splashScreen.setKeepOnScreenCondition {  }
-
-
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -68,10 +63,6 @@ class LoginActivity : AppCompatActivity() {
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
             }
-            setResult(RESULT_OK)
-
-            //Complete and destroy login activity once successful
-            finish()
         })
 
         username?.afterTextChanged {
@@ -106,16 +97,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        button = findViewById(R.id.buttonMap)
-        button.setOnClickListener {
+        binding.buttonMap?.setOnClickListener {
             val intent = Intent(this, MapsActivity::class.java)
-            //start your next activity
             startActivity(intent)
         }
 
-        // tvRegisterLink = findViewById(R.id.register_tv_loginLink)
-        tvRegisterLink = findViewById(R.id.login_tv_registerLink)
-        tvRegisterLink.setOnClickListener {
+        binding.loginTvRegisterLink?.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
@@ -125,15 +112,14 @@ class LoginActivity : AppCompatActivity() {
         val welcome = getString(R.string.welcome)
         val displayName = model.displayName
         // TODO : initiate successful logged in experience
-        Toast.makeText(
-            applicationContext,
-            "$welcome $displayName",
-            Toast.LENGTH_LONG
-        ).show()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("DISPLAY_NAME", displayName)
+        startActivity(intent)
+        finish()
     }
 
-    private fun showLoginFailed(@StringRes errorString: Int) {
-        // Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
+    private fun showLoginFailed(errorString: String) {
+        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 }
 
