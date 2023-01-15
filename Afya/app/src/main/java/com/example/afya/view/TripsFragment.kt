@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.afya.adapter.TripsAdapter
+import com.example.afya.data.model.User
 import com.example.afya.databinding.FragmentTripsBinding
 import com.example.afya.view.placeholder.PlaceholderContent
 

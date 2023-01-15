@@ -26,7 +26,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
     val tripNum: MutableLiveData<Int>
         get() = _tripNum
 
-    private val _numUtil = MutableLiveData<Int>()
+    private val _numUtil = MutableLiveData<Int>() // TODO (à voir avec anthony):  numéro de l'utilisateur
     val numUtil: MutableLiveData<Int>
         get() = _numUtil
 
@@ -45,6 +45,8 @@ class BluetoothCommunicationViewModel : ViewModel() {
     private val _distance = MutableLiveData<Double>()
     val distance: MutableLiveData<Double>
         get() = _distance
+    val strDistance : MutableLiveData<String>
+        get() = MutableLiveData<String>(_distance.value.toString())
 
     private val _steps: MutableList<Step> = ArrayList()
     val steps: MutableList<Step>
@@ -63,9 +65,6 @@ class BluetoothCommunicationViewModel : ViewModel() {
         receive()
     }
 
-
-
-
     fun reset() {
         _tripNum.value = 0
         _numUtil.value = 0
@@ -77,7 +76,6 @@ class BluetoothCommunicationViewModel : ViewModel() {
         _startPosition.value = ""
     }
 
-
     fun receive() {
         _dateTrip.postValue(Calendar.getInstance().time.toString())
         var cpt = 0
@@ -85,48 +83,50 @@ class BluetoothCommunicationViewModel : ViewModel() {
         var startTimeReceived: Boolean = false
         Log.i("startPosition", startPosition.value.toString())
         BluetoothService.msg.observeForever { msg ->
-             Log.i("msg :", msg)
+//             Log.i("msg :", msg)
             try {
-                if(cpt < numSteps)
-                {
-                    val step = Klaxon().parse<Step>(msg)
-                    if (step != null) {
-                        step.nom_etape = "Etape $cpt"
-                        step.numEtape = cpt
-                        step.id= cpt
-                        step.num_sortie = _tripNum.value
-                    }
-                    _steps.add(step!!)
-                    if(_steps.size >= 2)
-                        _distance.postValue(_distance.value!! + distance(_steps[_steps.size-1],_steps[_steps.size-2]))
-                    cpt++
-                } else {
-                    saveTrip()
-                }
+                numSteps = Integer.parseInt(msg)
+                Log.i("numSteps", numSteps.toString())
             }catch (e: Exception){
                 try {
-                    numSteps = Integer.parseInt(msg)
-                    Log.i("numSteps", numSteps.toString())
-                } catch (exc: java.lang.Exception) {
-                    Log.i("msg :", msg)
+                   // Log.i("msg :", msg)
+                    if(cpt < numSteps) {
+                        val step = Klaxon().parse<Step>(msg)
+                        if (step != null) {
+                            Log.i("step", "Etape $cpt")
+                            step.nom_etape = "Etape $cpt"
+                            step.numEtape = cpt
+                            step.id= cpt
+                            step.num_sortie = _tripNum.value
+                        }
+                        _steps.add(step!!)
+                        if(_steps.size >= 2)
+                            _distance.postValue(_distance.value!! + distance(_steps[_steps.size-1],_steps[_steps.size-2]))
+                        cpt++
+                    } else {
+                        saveTrip()
+                    }
 
+                } catch (exc: java.lang.Exception) {
+                    Log.i("msg", msg)
                     if (!startTimeReceived){
                         _startTime.postValue(msg)
-                        Log.i("startTime", _startTime.value.toString())
+                        _startTime.value?.let { Log.i("startTime", it) }
                         startTimeReceived = true
                     }else{
                         _endTime.postValue(msg)
-                        Log.i("endTime", _endTime.value.toString())
+                        _endTime.value?.let { Log.i("endTime", it) }
+
                     }
+
+
                 }
             }
-
         }
-
     }
 
     fun saveTrip() {
-        val myTrip: Trip = Trip(
+        _trip.postValue(Trip(
             _tripNum.value!!,
             _numUtil.value!!,
             _dateTrip.value!!,
@@ -135,8 +135,11 @@ class BluetoothCommunicationViewModel : ViewModel() {
             _startPosition.value!!,
             _distance.value!!,
             _steps!!
-        )
+        ))
 
+
+
+        /*
         viewModelScope.launch(Dispatchers.IO) {
             val req = Retrofit.Builder()
                 .baseUrl("http://192.168.60.26:8080/")// changer l'adresse ip
@@ -149,7 +152,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
             } else {
                 return@launch
             }
-        }
+        }*/
     }
 
 

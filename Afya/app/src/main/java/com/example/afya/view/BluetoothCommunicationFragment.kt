@@ -4,39 +4,43 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.afya.R
 import com.example.afya.bluetooth.BluetoothService
 import com.example.afya.databinding.FragmentBluetoothCommunicationBinding
 import com.example.afya.viewmodel.BluetoothCommunicationViewModel
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+
 
 class BluetoothCommunicationFragment : Fragment() {
 
-    // TODO : passé l'utilisateur en paramètre à ce fragment pour récupérer le numéro de la dernière sortie
-    val sharedPref = context?.getSharedPreferences("trip_preferences", Context.MODE_PRIVATE)
-
-    fun saveLastTripNumber(userId: String, lastTripNumber: Int) {
-        val editor = sharedPref?.edit()
-        if (editor != null) {
-            editor.putInt("last_trip_$userId", lastTripNumber)
-            editor.apply()
-        }
-    }
-
-    fun getLastTripNumber(userId: String): Int {
-        return sharedPref?.getInt("last_trip_$userId", 0) ?: 0
-    }
+//    // TODO : passé l'utilisateur en paramètre à ce fragment pour récupérer le numéro de la dernière sortie
+//    val sharedPref = context?.getSharedPreferences("trip_preferences", Context.MODE_PRIVATE)
+//
+//    fun saveLastTripNumber(userId: String, lastTripNumber: Int) {
+//        val editor = sharedPref?.edit()
+//        if (editor != null) {
+//            editor.putInt("last_trip_$userId", lastTripNumber)
+//            editor.apply()
+//        }
+//    }
+//
+//    fun getLastTripNumber(userId: String): Int {
+//        return sharedPref?.getInt("last_trip_$userId", 0) ?: 0
+//    }
 
     companion object {
         fun newInstance() = BluetoothCommunicationFragment()
@@ -48,14 +52,16 @@ class BluetoothCommunicationFragment : Fragment() {
 
     private lateinit var binding: FragmentBluetoothCommunicationBinding
     private lateinit var viewModel: BluetoothCommunicationViewModel
-    private val args: BluetoothCommunicationFragmentArgs by navArgs()
-    private val lastTripNumber = args.user.nomUtil?.let { getLastTripNumber(it) }
+//    private val args: BluetoothCommunicationFragmentArgs by navArgs()
+//    private val lastTripNumber = args.user.nomUtil?.let { getLastTripNumber(it) }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        askPermissions()
+
         binding = FragmentBluetoothCommunicationBinding.inflate(inflater, container, false)
         if (this.context?.let {
                 ContextCompat.checkSelfPermission(
@@ -115,7 +121,6 @@ class BluetoothCommunicationFragment : Fragment() {
 
         this.viewModel = ViewModelProvider(this).get(BluetoothCommunicationViewModel::class.java)
         binding.viewModel = viewModel
-        //binding.viewModel.startPosition.value = binding.startPosition.text.toString()
         if (viewModel.trip.value != null) {
             binding.loadingAnimation.visibility = View.GONE
             binding.textView4.visibility = View.VISIBLE
@@ -147,5 +152,34 @@ class BluetoothCommunicationFragment : Fragment() {
         this.viewModel.reset()
     }
 
+    fun askPermissions() {
+        Dexter.withActivity(this.activity).withPermissions(
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        )
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+                    if (report.areAllPermissionsGranted()) {
+                        /*val intent = Intent(this@BluetoothCommunicationFragment, BluetoothCommunicationFragment::class.java)
+                        startActivity(intent)
+                        finish()*/
+                    } else {
+                        Toast.makeText(
+                            this@BluetoothCommunicationFragment.context,
+                            "I need these permissions...",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        askPermissions()
+                    }
+                }
 
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: List<PermissionRequest?>?,
+                    token: PermissionToken
+                ) {
+                    token.continuePermissionRequest()
+                }
+            }).check()
+    }
 }
