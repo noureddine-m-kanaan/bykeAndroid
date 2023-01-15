@@ -11,6 +11,7 @@
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password_confirm">Passwords must match</string>
     <string name="login_failed">"Login failed"</string>
     <string name="register_text">"Vous n'avez pas de compte ?"</string>
     <string name="register_link">Inscrivez-vous</string>
@@ -22,4 +23,12 @@
     <string name="or">OU</string>
     <string name="logo_content_description">Afya</string>
     <string name="show_map">Afficher la carte</string>
+    <string name="details">Details</string>
+    <string name="date_sortie">Date : </string>
+    <string name="heure_depart">Heure de départ : </string>
+    <string name="heure_arrivee">Heure d\'arrivée : </string>
+    <string name="lieu_depart">Lieu de départ : </string>
+    <string name="distance_parcourue">Distance parcourue : </string>
+    <string name="liste_etapes">Liste des étapes : </string>
+    <string name="distance_format">%s km</string>
 </resources>

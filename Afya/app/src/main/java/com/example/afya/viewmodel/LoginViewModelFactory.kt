@@ -1,4 +1,4 @@
-package com.example.afya.ui.login
+package com.example.afya.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,7 +16,8 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(
                 loginRepository = LoginRepository(
-                    dataSource = LoginDataSource()
+                    dataSource = LoginDataSource(
+                    )
                 )
             ) as T
         }
