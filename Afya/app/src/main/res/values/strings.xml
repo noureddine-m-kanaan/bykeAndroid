@@ -28,4 +28,11 @@
     <string name="distance_parcourue">Distance parcourue : </string>
     <string name="liste_etapes">Liste des étapes : </string>
     <string name="distance_format">%s km</string>
+    <string name="sorties">Sorties</string>
+    <string name="utilisateur">Utilisateur</string>
+    <string name="commencer_session">Commencer session</string>
+    <string name="mes_sorties">Mes sorties :</string>
+    <string name="bienvenue">Bienvenue</string>
+    <string name="details_de_la_sortie">Détails de la sortie :</string>
+    <string name="se_deconnecter">Se déconnecter</string>
 </resources>

@@ -24,4 +24,10 @@
             android:name="trip"
             app:argType="com.example.afya.data.model.Trip" />
     </fragment>
+
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.afya.view.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
 </navigation>

@@ -32,7 +32,4 @@ class LoginDataSource {
             Result.Error(IOException("Erreur de connexion au serveur", e))
         }
     }
-
-    fun logout() {
-    }
 }
