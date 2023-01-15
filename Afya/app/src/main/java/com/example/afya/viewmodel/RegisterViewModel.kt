@@ -8,12 +8,14 @@ import androidx.lifecycle.viewModelScope
 
 import com.example.afya.R
 import com.example.afya.api.API
+import com.example.afya.data.Result
 import com.example.afya.data.model.RegisterRequest
 import com.example.afya.ui.register.RegisterFormState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 class RegisterViewModel() : ViewModel() {
 
@@ -26,16 +28,16 @@ class RegisterViewModel() : ViewModel() {
 
     fun register(username: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val req = Retrofit.Builder()
-                .baseUrl("http://192.168.60.26:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(API::class.java)
-                .register(RegisterRequest(username, password, "visiteur"))
-            if (req.isSuccessful) {
-                _registerResult.postValue(true)
-            } else {
-                return@launch
+            try {
+                val req = Retrofit.Builder()
+                    .baseUrl("http://192.168.60.26:8080/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(API::class.java)
+                    .register(RegisterRequest(username, password, "visiteur"))
+                _registerResult.postValue(req.isSuccessful)
+            } catch (e: Exception) {
+                _registerResult.postValue(false)
             }
         }
     }

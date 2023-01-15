@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.afya.R
@@ -28,6 +29,7 @@ class RegisterActivity : AppCompatActivity() {
         val password = binding.registerPassword
         val passwordConfirm = binding.registerConfirmPassword
         val register = binding.registerButton
+        val loading = binding.loading
 
         registerViewModel = ViewModelProvider(this, RegisterViewModelFactory())[(RegisterViewModel::class.java)]
 
@@ -50,8 +52,11 @@ class RegisterActivity : AppCompatActivity() {
         registerViewModel.registerResult.observe(this@RegisterActivity, Observer {
             val registerResult = it ?: return@Observer
 
+            loading.visibility = View.GONE
             if(registerResult) {
                 showRegisterSuccess()
+            }else{
+                showRegisterFailed("Erreur de connexion au serveur")
             }
         })
 
@@ -92,6 +97,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             register.setOnClickListener {
+                loading.visibility = View.VISIBLE
                 registerViewModel.register(
                     username.text.toString(),
                     password.text.toString()
@@ -107,7 +113,12 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showRegisterSuccess(){
+        Toast.makeText(applicationContext, "Inscription réussie, veuillez vous connecter", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
+    }
+
+    private fun showRegisterFailed(errorString: String){
+        Toast.makeText(applicationContext, errorString, Toast.LENGTH_SHORT).show()
     }
 }

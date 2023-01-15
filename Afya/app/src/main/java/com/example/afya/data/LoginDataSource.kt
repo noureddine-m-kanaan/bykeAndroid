@@ -16,16 +16,20 @@ import java.io.IOException
  */
 class LoginDataSource {
     suspend fun login(username: String, password: String): Result<LoggedInUser> {
-        val resp = Retrofit.Builder()
-            .baseUrl("http://192.168.60.26:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(API::class.java)
-            .login(User(username, password))
-        return if(resp.isSuccessful){
-            Result.Success(resp.body()!!)
-        }else{
-            Result.Error(IOException("Error logging in"))
+        return try {
+            val resp = Retrofit.Builder()
+                .baseUrl("http://192.168.60.26:8080/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(API::class.java)
+                .login(User(username, password))
+            if (resp.isSuccessful) {
+                Result.Success(resp.body()!!)
+            } else {
+                Result.Error(IOException("Nom d'utilisateur ou mot de passe incorrect"))
+            }
+        } catch (e: Throwable) {
+            Result.Error(IOException("Erreur de connexion au serveur", e))
         }
     }
 
