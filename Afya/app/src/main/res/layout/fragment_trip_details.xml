@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="trip"
+            type="com.example.afya.data.model.Trip" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_date_sortie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_sortie"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_date_sortie_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{trip.date_sortie}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/tv_date_sortie"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_heure_depart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/heure_depart"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_sortie" />
+
+        <TextView
+            android:id="@+id/tv_heure_depart_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{trip.heure_depart}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/tv_heure_depart"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_sortie_value" />
+
+        <TextView
+            android:id="@+id/tv_heure_arrivee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/heure_arrivee"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_heure_depart" />
+
+        <TextView
+            android:id="@+id/tv_heure_arrivee_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{trip.heure_arrivee}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/tv_heure_arrivee"
+            app:layout_constraintTop_toBottomOf="@id/tv_heure_depart_value" />
+
+        <TextView
+            android:id="@+id/tv_lieu_depart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lieu_depart"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_heure_arrivee" />
+
+        <TextView
+            android:id="@+id/tv_lieu_depart_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{trip.lieu_depart}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/tv_lieu_depart"
+            app:layout_constraintTop_toBottomOf="@id/tv_heure_arrivee_value" />
+
+        <TextView
+            android:id="@+id/tv_distance_parcourue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/distance_parcourue"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_lieu_depart" />
+
+        <TextView
+            android:id="@+id/tv_distance_parcourue_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{String.format(@string/distance_format, trip.distance_parcourue.toString())}"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@id/tv_distance_parcourue"
+            app:layout_constraintTop_toBottomOf="@id/tv_lieu_depart_value" />
+
+        <TextView
+            android:id="@+id/tv_etapes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/liste_etapes"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_distance_parcourue" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_steps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_etapes" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

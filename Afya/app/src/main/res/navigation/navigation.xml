@@ -4,19 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
     app:startDestination="@id/tripsFragment">
+
     <fragment
         android:id="@+id/tripsFragment"
         android:name="com.example.afya.view.TripsFragment"
         android:label="fragment_trips"
         tools:layout="@layout/fragment_trips">
         <action
-            android:id="@+id/action_tripsFragment_to_exerciceDetailsFragment6"
-            app:destination="@id/exerciceDetailsFragment6" />
+            android:id="@+id/action_tripsFragment_to_tripDetailsFragment"
+            app:destination="@id/tripDetailsFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/exerciceDetailsFragment6"
+        android:id="@+id/tripDetailsFragment"
         android:name="com.example.afya.view.TripDetailsFragment"
-        android:label="fragment_exercice_details"
-        tools:layout="@layout/fragment_exercice_details" />
+        android:label="fragment_trip_details"
+        tools:layout="@layout/fragment_trip_details" >
+        <argument
+            android:name="trip"
+            app:argType="com.example.afya.data.model.Trip" />
+    </fragment>
 </navigation>

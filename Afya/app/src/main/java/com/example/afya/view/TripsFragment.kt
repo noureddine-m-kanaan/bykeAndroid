@@ -25,6 +25,10 @@ import retrofit2.converter.gson.GsonConverterFactory
  * A fragment representing a list of Items.
  */
 class TripsFragment : Fragment() {
+    interface OnTripClickListener {
+        fun onTripClick(trip: Trip)
+    }
+
     lateinit var adapter: TripsAdapter
     lateinit var recyclerView: RecyclerView
     var trips: MutableList<Trip> = mutableListOf()
@@ -43,6 +47,11 @@ class TripsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = TripsAdapter(trips)
         recyclerView.adapter = adapter
+        adapter.setOnTripClickListener(object : OnTripClickListener {
+            override fun onTripClick(trip: Trip) {
+                navigateToTripDetails(trip)
+            }
+        })
 
         val req = Retrofit.Builder()
             .baseUrl("http://192.168.60.26:8080/")
@@ -54,7 +63,7 @@ class TripsFragment : Fragment() {
             try{
                 val response = req.getTrips(token!!, id!!)
                 response.body()!!.forEach{
-                    it.formatDate()
+                    it.format()
                 }
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
@@ -71,9 +80,8 @@ class TripsFragment : Fragment() {
         return view
     }
 
-    private fun validate() {
-        this.findNavController().navigate(
-            TripsFragmentDirections.actionTripsFragmentToExerciceDetailsFragment6()
-        )
+    private fun navigateToTripDetails(trip: Trip){
+        val action = TripsFragmentDirections.actionTripsFragmentToTripDetailsFragment(trip)
+        findNavController().navigate(action)
     }
 }
