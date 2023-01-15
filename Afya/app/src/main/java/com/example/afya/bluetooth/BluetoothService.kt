@@ -39,8 +39,6 @@ class BluetoothService : Service() {
         super.onCreate()
         Log.i("BluetoothService", "BluetoothService")
 
-
-
         thread (true){
             bluetooth.onStart()
             Log.i("BluetoothService", "onStart")
@@ -57,6 +55,8 @@ class BluetoothService : Service() {
         override fun onDeviceConnected(device: BluetoothDevice?) {
             if (device != null) {
                 System.out.println("Connected to device"+device.name)
+                System.out.println("Connected to device with address : "+device.address)
+                Log.i("device address :", device.address)
                 // TODO : Récupére l'adresse mac de l'esp32
                 _connected.postValue(true)
             }
@@ -71,7 +71,8 @@ class BluetoothService : Service() {
         }
 
         override fun onMessage(message: ByteArray?) {
-            BluetoothService.msg.postValue(String(message!!))
+            Log.i("message", "onMessage")
+            msg.postValue(String(message!!))
         }
 
         override fun onError(errorCode: Int) {

@@ -15,8 +15,8 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="417dp"
+            android:layout_height="741dp"
             android:layout_margin="6sp">
 
 
@@ -48,11 +48,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="128dp"
-                android:layout_marginBottom="424dp"
+                android:layout_marginBottom="392dp"
                 android:text="@string/save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.006"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
@@ -62,9 +62,10 @@
                 android:layout_marginStart="92dp"
                 android:layout_marginTop="312dp"
                 android:ems="10"
+
                 android:inputType="textPersonName"
                 android:minHeight="48dp"
-                android:text="Start position"
+                android:text="@={viewModel.startPosition}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

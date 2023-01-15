@@ -1,29 +1,16 @@
 package com.example.afya.data
 
-import androidx.annotation.Keep
-import androidx.databinding.BaseObservable
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import com.example.afya.data.Step
-import java.sql.Time
+import android.annotation.SuppressLint
+import java.text.SimpleDateFormat
 import java.util.*
 
-@Keep
-@Entity(tableName = "sortie")
-data class Trip(
-   // @PrimaryKey(autoGenerate = true) var id: Int = 0,
-    val tripNum: Int?= null,
-    @ColumnInfo(name = "num_util")
-    val numUtil: Int?= null,
-    @ColumnInfo(name = "date_trip")
-    val dateTrip: Date?= null,
-    @ColumnInfo(name = "start_time")
-    val startTime: Time?= null,
-    @ColumnInfo(name = "end_time")
-    val endTime: Time?= null,
-    @ColumnInfo(name = "distance")
-    val distance: Double?= null,
-    @ColumnInfo(name = "steps")
-    val steps: List<Step>
-): java.io.Serializable, BaseObservable()
-
+class Trip(var num_sortie: Int?, var num_util: Int?, var date_sortie: String, var heure_depart: String?, var heure_arrivee: String?, var lieur_depart: String?, var distance_parcourue: Double, var etapesByNum_sortie: List<Step>?) {
+    @SuppressLint("SimpleDateFormat")
+    fun formatDate() {
+        val dateSortie = SimpleDateFormat("dd MMMM yyyy", Locale("fr")).format(
+            SimpleDateFormat("yyyy-MM-dd").parse(date_sortie!!)!!
+        )
+        println(dateSortie)
+        this.date_sortie = dateSortie
+    }
+}

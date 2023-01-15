@@ -29,5 +29,8 @@
         <action
             android:id="@+id/action_bluetoothCommunicationFragment2_to_tripsFragment"
             app:destination="@id/tripsFragment" />
+        <argument
+            android:name="user"
+            app:argType="com.example.afya.data.model.User" />
     </fragment>
 </navigation>
