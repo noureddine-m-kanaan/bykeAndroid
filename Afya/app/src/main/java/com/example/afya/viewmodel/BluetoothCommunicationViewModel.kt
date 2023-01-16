@@ -42,11 +42,11 @@ class BluetoothCommunicationViewModel : ViewModel() {
     val endTime: MutableLiveData<String>
         get() = _endTime
 
-    private val _distance = MutableLiveData<Double>()
-    val distance: MutableLiveData<Double>
-        get() = _distance
-    val strDistance : MutableLiveData<String>
-        get() = MutableLiveData<String>(_distance.value.toString())
+
+    var distance: Double = 0.0
+    val _strDistance =MutableLiveData<String>()
+    val strDistance: MutableLiveData<String>
+        get() = _strDistance
 
     private val _steps: MutableList<Step> = ArrayList()
     val steps: MutableList<Step>
@@ -71,7 +71,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
         _dateTrip.value = ""
         _startTime.value = ""
         _endTime.value = ""
-        _distance.value = 0.0
+        distance = 0.0
         _steps.clear()
         _startPosition.value = "Start position"
         _trip.postValue(null)
@@ -89,7 +89,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
                 numSteps = Integer.parseInt(msg)
                 Log.i("numSteps", numSteps.toString())
             }catch (e: Exception){
-                if(cpt < numSteps) {
+                if(cpt < numSteps-1 || _startTime.value == "" || _endTime.value=="") {
                     try {
                         // Log.i("msg :", msg)
 
@@ -103,7 +103,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
                         }
                         _steps.add(step!!)
                         if(_steps.size >= 2)
-                            _distance.postValue(_distance.value!! + distance(_steps[_steps.size-1],_steps[_steps.size-2]))
+                           distance+=distance(_steps[_steps.size-1],_steps[_steps.size-2])
                         cpt++
                     } catch (exc: java.lang.Exception) {
                         Log.i("exception", exc.toString())
@@ -118,6 +118,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
                         }
                     }
                 }else {
+                    Log.i("cpt", cpt.toString())
                     saveTrip()
                 }
             }
@@ -125,33 +126,23 @@ class BluetoothCommunicationViewModel : ViewModel() {
     }
 
     fun saveTrip() {
-        if(_trip == null) {
-            val myTrip = Trip(
+        if(_trip.value == null) {
+           val myTrip = Trip(
                 _tripNum.value!!,
                 _numUtil.value!!,
                 _dateTrip.value!!,
                 _startTime.value!!,
                 _endTime.value!!,
                 _startPosition.value!!,
-                _distance.value!!,
+               distance,
                 _steps!!
             )
+            Log.i("distance", distance.toString())
+            _strDistance.postValue(distance.toString())
+            _trip.postValue(myTrip)
+
+
             /*
-            _trip.postValue(Trip(
-                _tripNum.value!!,
-                _numUtil.value!!,
-                _dateTrip.value!!,
-                _startTime.value!!,
-                _endTime.value!!,
-                _startPosition.value!!,
-                _distance.value!!,
-                _steps!!
-            ))
-
-             */
-            Log.i("trip", trip.value.toString())
-
-
             viewModelScope.launch(Dispatchers.IO) {
                 val req = Retrofit.Builder()
                     .baseUrl("http://192.168.60.26:8080/")// changer l'adresse ip
@@ -164,7 +155,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
                 } else {
                     return@launch
                 }
-            }
+            }*/
         }
     }
 
