@@ -95,11 +95,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        binding.buttonMap?.setOnClickListener {
-            val intent = Intent(this, MapsActivity::class.java)
-            startActivity(intent)
-        }
-
         binding.loginTvRegisterLink?.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)

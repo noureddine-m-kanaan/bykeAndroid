@@ -18,7 +18,7 @@ class LoginDataSource {
     suspend fun login(username: String, password: String): Result<LoggedInUser> {
         return try {
             val resp = Retrofit.Builder()
-                .baseUrl("http://192.168.60.26:8080/")
+                .baseUrl(ApiAdress.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(API::class.java)

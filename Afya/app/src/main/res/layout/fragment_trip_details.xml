@@ -39,6 +39,7 @@
             android:id="@+id/tv_date_sortie_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@{trip.date_sortie}"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/tv_date_sortie"
@@ -124,12 +125,13 @@
             android:id="@+id/tv_etapes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/liste_etapes"
+            android:text="Map : "
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_distance_parcourue" />
 
+        <!--
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_steps"
             android:layout_width="match_parent"
@@ -139,5 +141,16 @@
             android:scrollbars="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_etapes" />
+        -->
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_etapes" />
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

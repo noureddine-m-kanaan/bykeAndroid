@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 
 import com.example.afya.R
 import com.example.afya.api.API
+import com.example.afya.data.ApiAdress
 import com.example.afya.data.Result
 import com.example.afya.data.model.RegisterRequest
 import com.example.afya.ui.register.RegisterFormState
@@ -30,7 +31,7 @@ class RegisterViewModel() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val req = Retrofit.Builder()
-                    .baseUrl("http://192.168.60.26:8080/")
+                    .baseUrl(ApiAdress.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(API::class.java)
