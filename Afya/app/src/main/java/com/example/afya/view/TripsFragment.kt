@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.afya.R
 import com.example.afya.adapter.TripsAdapter
 import com.example.afya.api.API
-import com.example.afya.data.ApiAdress
+import com.example.afya.api.ApiAdress
 import com.example.afya.data.model.Trip
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

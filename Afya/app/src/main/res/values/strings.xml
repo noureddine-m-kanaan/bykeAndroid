@@ -35,4 +35,5 @@
     <string name="bienvenue">Bienvenue</string>
     <string name="details_de_la_sortie">Détails de la sortie :</string>
     <string name="se_deconnecter">Se déconnecter</string>
+    <string name="map">Map :</string>
 </resources>

@@ -6,15 +6,11 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.afya.MapsActivity
-import com.example.afya.R
 import com.example.afya.databinding.ActivityLoginBinding
 import com.example.afya.ui.login.LoggedInUserView
 import com.example.afya.viewmodel.LoginViewModel

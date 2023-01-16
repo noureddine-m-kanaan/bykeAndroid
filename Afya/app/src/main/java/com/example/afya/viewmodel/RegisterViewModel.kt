@@ -8,15 +8,13 @@ import androidx.lifecycle.viewModelScope
 
 import com.example.afya.R
 import com.example.afya.api.API
-import com.example.afya.data.ApiAdress
-import com.example.afya.data.Result
+import com.example.afya.api.ApiAdress
 import com.example.afya.data.model.RegisterRequest
 import com.example.afya.ui.register.RegisterFormState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 class RegisterViewModel() : ViewModel() {
 

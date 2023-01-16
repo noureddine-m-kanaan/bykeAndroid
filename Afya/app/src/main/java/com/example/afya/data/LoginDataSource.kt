@@ -1,11 +1,9 @@
 package com.example.afya.data
 
 import com.example.afya.api.API
+import com.example.afya.api.ApiAdress
 import com.example.afya.data.model.LoggedInUser
 import com.example.afya.data.model.User
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
