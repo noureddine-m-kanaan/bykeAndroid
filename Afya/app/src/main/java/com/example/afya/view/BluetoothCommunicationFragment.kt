@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.afya.bluetooth.BluetoothService
 import com.example.afya.databinding.FragmentBluetoothCommunicationBinding
 import com.example.afya.viewmodel.BluetoothCommunicationViewModel
@@ -27,20 +26,18 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 
 class BluetoothCommunicationFragment : Fragment() {
 
-//    // TODO : passé l'utilisateur en paramètre à ce fragment pour récupérer le numéro de la dernière sortie
-//    val sharedPref = context?.getSharedPreferences("trip_preferences", Context.MODE_PRIVATE)
-//
-//    fun saveLastTripNumber(userId: String, lastTripNumber: Int) {
-//        val editor = sharedPref?.edit()
-//        if (editor != null) {
-//            editor.putInt("last_trip_$userId", lastTripNumber)
-//            editor.apply()
-//        }
-//    }
-//
-//    fun getLastTripNumber(userId: String): Int {
-//        return sharedPref?.getInt("last_trip_$userId", 0) ?: 0
-//    }
+    // TODO : passé l'utilisateur en paramètre à ce fragment pour récupérer le numéro de la dernière sortie
+    val sharedPref = context?.getSharedPreferences("trip_preferences", Context.MODE_PRIVATE)
+    fun saveLastTripNumber(userId: String, lastTripNumber: Int) {
+        val editor = sharedPref?.edit()
+        if (editor != null) {
+            editor.putInt("last_trip_$userId", lastTripNumber)
+            editor.apply()
+        }
+    }
+    fun getLastTripNumber(userId: String): Int {
+        return sharedPref?.getInt("last_trip_$userId", 0) ?: 0
+    }
 
     companion object {
         fun newInstance() = BluetoothCommunicationFragment()
@@ -60,6 +57,10 @@ class BluetoothCommunicationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val activity: MainActivity = activity as MainActivity
+        val extras = activity.getExtra()
+        val id = extras?.getInt("USER_ID")
+
         askPermissions()
 
         binding = FragmentBluetoothCommunicationBinding.inflate(inflater, container, false)
@@ -119,24 +120,25 @@ class BluetoothCommunicationFragment : Fragment() {
         binding.startPosition.visibility = View.GONE
         binding.buttonEnregistrer.visibility = View.GONE
 
-        this.viewModel = ViewModelProvider(this).get(BluetoothCommunicationViewModel::class.java)
+        this.viewModel = ViewModelProvider(this)[BluetoothCommunicationViewModel::class.java]
         binding.viewModel = viewModel
-       viewModel.trip.observe(viewLifecycleOwner, { trip ->
-                if (trip != null) {
-                    binding.loadingAnimation.visibility = View.GONE
-                    binding.loading.visibility = View.GONE
-                    binding.startPosition.visibility = View.VISIBLE
-                    binding.buttonEnregistrer.visibility = View.VISIBLE
-                    binding.buttonEnregistrer.setOnClickListener {
-                        navigateToMain()
-                    }
-                }
-            })
+        viewModel.tripNum.postValue(getLastTripNumber(id.toString()) + 1)
+        viewModel.trip.observe(viewLifecycleOwner) { trip ->
+           if (trip != null) {
+               binding.loadingAnimation.visibility = View.GONE
+               binding.loading.visibility = View.GONE
+               binding.startPosition.visibility = View.VISIBLE
+               binding.buttonEnregistrer.visibility = View.VISIBLE
+               binding.buttonEnregistrer.setOnClickListener {
+                   navigateToMain()
+               }
+           }
+       }
 
         return binding.root
     }
 
-    fun navigateToMain() {
+    private fun navigateToMain() {
         this.findNavController().navigate(
             BluetoothCommunicationFragmentDirections
                 .actionBluetoothCommunicationFragment2ToTripsFragment()

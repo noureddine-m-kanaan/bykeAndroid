@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -78,7 +79,8 @@ class TripsFragment : Fragment() {
             }
         }
 
-        binding.button.setOnClickListener {
+        val button = activity.findViewById<Button>(R.id.button)
+        button.setOnClickListener {
             communicateWithBlutooth()
         }
 
@@ -89,25 +91,10 @@ class TripsFragment : Fragment() {
         val action = TripsFragmentDirections.actionTripsFragmentToTripDetailsFragment(trip)
         findNavController().navigate(action)
     }
-}
 
-    fun communicateWithBlutooth(){
-        this.findNavController().navigate(
+    private fun communicateWithBlutooth(){
+        findNavController().navigate(
             TripsFragmentDirections.actionTripsFragmentToBluetoothCommunicationFragment2()
         )
-    }
-
-    companion object {
-
-        // TODO: Customize parameter argument names
-        const val ARG_COLUMN_COUNT = "column-count"
-        // TODO: Customize parameter initialization
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            TripsFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
     }
 }

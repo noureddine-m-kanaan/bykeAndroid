@@ -24,8 +24,8 @@
         android:label="fragment_trip_details"
         tools:layout="@layout/fragment_trip_details" >
         <argument
-            app:argType="com.example.afya.data.model.Trip" />
-            android:name="trip"
+            app:argType="com.example.afya.data.model.Trip"
+            android:name="trip" />
     </fragment>
     <fragment
         android:id="@+id/bluetoothCommunicationFragment2"
@@ -40,5 +40,9 @@
         android:id="@+id/userFragment"
         android:name="com.example.afya.view.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_bluetoothCommunicationFragment2"
+            app:destination="@id/bluetoothCommunicationFragment2" />
+    </fragment>
 </navigation>

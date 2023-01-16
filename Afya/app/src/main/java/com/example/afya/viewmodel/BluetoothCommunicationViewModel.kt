@@ -4,11 +4,17 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.example.afya.api.API
 import com.example.afya.bluetooth.BluetoothService
 import com.example.afya.data.model.Step
-import com.example.afya.database.MyDatabase
+import com.example.afya.data.model.Trip
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 import java.util.*
 
@@ -91,7 +97,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
                         if (step != null) {
                             Log.i("step", "Etape $cpt")
                             step.nom_etape = "Etape $cpt"
-                            step.numEtape = cpt
+                            step.num_etape = cpt
                             step.id= cpt
                             step.num_sortie = _tripNum.value
                         }
@@ -120,6 +126,17 @@ class BluetoothCommunicationViewModel : ViewModel() {
 
     fun saveTrip() {
         if(_trip == null) {
+            val myTrip = Trip(
+                _tripNum.value!!,
+                _numUtil.value!!,
+                _dateTrip.value!!,
+                _startTime.value!!,
+                _endTime.value!!,
+                _startPosition.value!!,
+                _distance.value!!,
+                _steps!!
+            )
+            /*
             _trip.postValue(Trip(
                 _tripNum.value!!,
                 _numUtil.value!!,
@@ -130,10 +147,11 @@ class BluetoothCommunicationViewModel : ViewModel() {
                 _distance.value!!,
                 _steps!!
             ))
+
+             */
             Log.i("trip", trip.value.toString())
 
 
-            /*
             viewModelScope.launch(Dispatchers.IO) {
                 val req = Retrofit.Builder()
                     .baseUrl("http://192.168.60.26:8080/")// changer l'adresse ip
@@ -146,7 +164,7 @@ class BluetoothCommunicationViewModel : ViewModel() {
                 } else {
                     return@launch
                 }
-            }*/
+            }
         }
     }
 
@@ -178,9 +196,6 @@ class BluetoothCommunicationViewModel : ViewModel() {
                 extras: CreationExtras
             ): T {
                 if (modelClass.isAssignableFrom(BluetoothCommunicationViewModel::class.java)) {
-                    val application =
-                        checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY])
-                    val dataSource = MyDatabase.getInstance(application).tripDao
                     return BluetoothCommunicationViewModel() as T
                 }
                 throw IllegalArgumentException("Unknown ViewModel class")
