@@ -36,4 +36,6 @@
     <string name="details_de_la_sortie">Détails de la sortie :</string>
     <string name="se_deconnecter">Se déconnecter</string>
     <string name="map">Map :</string>
+    <string name="save">Enregistrer</string>
+    <string name="enter_start_position">Entrer position de départ</string>
 </resources>

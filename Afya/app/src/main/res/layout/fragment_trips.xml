@@ -25,6 +25,8 @@
         android:layout_marginRight="15dp"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layoutManager="LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:context=".view.TripsFragment"
         tools:listitem="@layout/item_trip" />
 

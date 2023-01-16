@@ -9,6 +9,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.afya.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+
 class MainActivity : AppCompatActivity() {
     private var extras: Bundle? = null
     private lateinit var bottomNavigation: BottomNavigationView

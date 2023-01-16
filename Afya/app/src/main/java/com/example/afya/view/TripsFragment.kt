@@ -78,11 +78,36 @@ class TripsFragment : Fragment() {
             }
         }
 
+        binding.button.setOnClickListener {
+            communicateWithBlutooth()
+        }
+
         return view
     }
 
     private fun navigateToTripDetails(trip: Trip){
         val action = TripsFragmentDirections.actionTripsFragmentToTripDetailsFragment(trip)
         findNavController().navigate(action)
+    }
+}
+
+    fun communicateWithBlutooth(){
+        this.findNavController().navigate(
+            TripsFragmentDirections.actionTripsFragmentToBluetoothCommunicationFragment2()
+        )
+    }
+
+    companion object {
+
+        // TODO: Customize parameter argument names
+        const val ARG_COLUMN_COUNT = "column-count"
+        // TODO: Customize parameter initialization
+        @JvmStatic
+        fun newInstance(columnCount: Int) =
+            TripsFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(ARG_COLUMN_COUNT, columnCount)
+                }
+            }
     }
 }
