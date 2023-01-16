@@ -13,6 +13,7 @@ import com.example.afya.bluetooth.BluetoothService
 import com.example.afya.data.Step
 import com.example.afya.data.Trip
 import com.example.afya.database.MyDatabase
+import com.google.gson.Gson
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +22,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 class BluetoothCommunicationViewModel : ViewModel() {
+
+    val gson = Gson()
     // TODO : Voir comment avoir le numéro de la dernière sortie
     private val _tripNum = MutableLiveData<Int>()
     val tripNum: MutableLiveData<Int>
@@ -52,8 +55,8 @@ class BluetoothCommunicationViewModel : ViewModel() {
     val steps: MutableList<Step>
         get() = _steps
 
-    private val _trip = MutableLiveData<Trip>()
-    val trip: MutableLiveData<Trip>
+    private val _trip = MutableLiveData<Trip?>()
+    val trip: MutableLiveData<Trip?>
         get() = _trip
 
     private var _startPosition = MutableLiveData<String>()
@@ -73,7 +76,8 @@ class BluetoothCommunicationViewModel : ViewModel() {
         _endTime.value = ""
         _distance.value = 0.0
         _steps.clear()
-        _startPosition.value = ""
+        _startPosition.value = "Start position"
+        _trip.postValue(null)
     }
 
     fun receive() {
@@ -88,10 +92,11 @@ class BluetoothCommunicationViewModel : ViewModel() {
                 numSteps = Integer.parseInt(msg)
                 Log.i("numSteps", numSteps.toString())
             }catch (e: Exception){
-                try {
-                   // Log.i("msg :", msg)
-                    if(cpt < numSteps) {
-                        val step = Klaxon().parse<Step>(msg)
+                if(cpt < numSteps) {
+                    try {
+                        // Log.i("msg :", msg)
+
+                        val step = gson.fromJson(msg, Step::class.java)
                         if (step != null) {
                             Log.i("step", "Etape $cpt")
                             step.nom_etape = "Etape $cpt"
@@ -103,56 +108,55 @@ class BluetoothCommunicationViewModel : ViewModel() {
                         if(_steps.size >= 2)
                             _distance.postValue(_distance.value!! + distance(_steps[_steps.size-1],_steps[_steps.size-2]))
                         cpt++
-                    } else {
-                        saveTrip()
+                    } catch (exc: java.lang.Exception) {
+                        Log.i("exception", exc.toString())
+                        Log.i("msg", msg)
+                        if (!startTimeReceived){
+                            _startTime.postValue(msg)
+                            _startTime.value?.let { Log.i("startTime", it) }
+                            startTimeReceived = true
+                        }else{
+                            _endTime.postValue(msg)
+                            _endTime.value?.let { Log.i("endTime", it) }
+                        }
                     }
-
-                } catch (exc: java.lang.Exception) {
-                    Log.i("msg", msg)
-                    if (!startTimeReceived){
-                        _startTime.postValue(msg)
-                        _startTime.value?.let { Log.i("startTime", it) }
-                        startTimeReceived = true
-                    }else{
-                        _endTime.postValue(msg)
-                        _endTime.value?.let { Log.i("endTime", it) }
-
-                    }
-
-
+                }else {
+                    saveTrip()
                 }
             }
         }
     }
 
     fun saveTrip() {
-        _trip.postValue(Trip(
-            _tripNum.value!!,
-            _numUtil.value!!,
-            _dateTrip.value!!,
-            _startTime.value!!,
-            _endTime.value!!,
-            _startPosition.value!!,
-            _distance.value!!,
-            _steps!!
-        ))
+        if(_trip == null) {
+            _trip.postValue(Trip(
+                _tripNum.value!!,
+                _numUtil.value!!,
+                _dateTrip.value!!,
+                _startTime.value!!,
+                _endTime.value!!,
+                _startPosition.value!!,
+                _distance.value!!,
+                _steps!!
+            ))
+            Log.i("trip", trip.value.toString())
 
 
-
-        /*
-        viewModelScope.launch(Dispatchers.IO) {
-            val req = Retrofit.Builder()
-                .baseUrl("http://192.168.60.26:8080/")// changer l'adresse ip
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(API::class.java)
-                .addTrip(myTrip)
-            if (req.isSuccessful) {
-                _trip.postValue(myTrip)
-            } else {
-                return@launch
-            }
-        }*/
+            /*
+            viewModelScope.launch(Dispatchers.IO) {
+                val req = Retrofit.Builder()
+                    .baseUrl("http://192.168.60.26:8080/")// changer l'adresse ip
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+                    .create(API::class.java)
+                    .addTrip(myTrip)
+                if (req.isSuccessful) {
+                    _trip.postValue(myTrip)
+                } else {
+                    return@launch
+                }
+            }*/
+        }
     }
 
 

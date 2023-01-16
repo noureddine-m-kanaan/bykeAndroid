@@ -1,17 +1,16 @@
 package com.example.afya.data
 
-import com.beust.klaxon.Json
+import com.google.gson.annotations.Expose
+
 
 data class Step(
-    @Json(ignored = true)
     var id : Int,
-    @Json(ignored = true)
     var numEtape : Int,
-    @Json(ignored = true)
     var num_sortie: Int?,
-    @Json(ignored = true)
     var nom_etape: String?,
+    @Expose
     val latitude: Double,
+    @Expose
     val longitude : Double,
 ) : java.io.Serializable {
     override fun toString(): String {

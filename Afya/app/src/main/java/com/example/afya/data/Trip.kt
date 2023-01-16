@@ -13,4 +13,8 @@ class Trip(var num_sortie: Int?, var num_util: Int?, var date_sortie: String, va
         println(dateSortie)
         this.date_sortie = dateSortie
     }
+
+    override fun toString(): String {
+        return "Trip(num_sortie=$num_sortie, num_util=$num_util, date_sortie='$date_sortie', heure_depart=$heure_depart, heure_arrivee=$heure_arrivee, lieur_depart=$lieur_depart, distance_parcourue=$distance_parcourue, etapesByNum_sortie=$etapesByNum_sortie)"
+    }
 }

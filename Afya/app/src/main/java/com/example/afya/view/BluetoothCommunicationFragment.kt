@@ -115,21 +115,24 @@ class BluetoothCommunicationFragment : Fragment() {
         binding.lifecycleOwner = this
 
         binding.loadingAnimation.visibility = View.VISIBLE
-        binding.textView4.visibility = View.GONE
-        //binding.startPosition.visibility = View.GONE
+        binding.loading.visibility = View.VISIBLE
+        binding.startPosition.visibility = View.GONE
         binding.buttonEnregistrer.visibility = View.GONE
 
         this.viewModel = ViewModelProvider(this).get(BluetoothCommunicationViewModel::class.java)
         binding.viewModel = viewModel
-        if (viewModel.trip.value != null) {
-            binding.loadingAnimation.visibility = View.GONE
-            binding.textView4.visibility = View.VISIBLE
-            binding.startPosition.visibility = View.VISIBLE
-            binding.buttonEnregistrer.visibility = View.VISIBLE
-            binding.buttonEnregistrer.setOnClickListener {
-                navigateToMain()
-            }
-        }
+       viewModel.trip.observe(viewLifecycleOwner, { trip ->
+                if (trip != null) {
+                    binding.loadingAnimation.visibility = View.GONE
+                    binding.loading.visibility = View.GONE
+                    binding.startPosition.visibility = View.VISIBLE
+                    binding.buttonEnregistrer.visibility = View.VISIBLE
+                    binding.buttonEnregistrer.setOnClickListener {
+                        navigateToMain()
+                    }
+                }
+            })
+
         return binding.root
     }
 
@@ -167,7 +170,7 @@ class BluetoothCommunicationFragment : Fragment() {
                     } else {
                         Toast.makeText(
                             this@BluetoothCommunicationFragment.context,
-                            "I need these permissions...",
+                            "please activate location and bluetooth",
                             Toast.LENGTH_SHORT
                         ).show()
                         askPermissions()
