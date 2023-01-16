@@ -43,7 +43,8 @@ class BluetoothService : Service() {
             }
             //TODO : se connecter avec l'adresse mac
             Log.i("BluetoothService", "onStart")
-            bluetooth.connectToName("ESP32test")
+            //bluetooth.connectToName("ESP32test")
+            bluetooth.connectToAddress("94:B9:7E:6B:13:9E")
             Log.i("BluetoothService", "connectToName")
             bluetooth.setBluetoothCallback(this.bluetoothCallback)
             Log.i("BluetoothService", "bluetoothCallback")
